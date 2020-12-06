@@ -3,6 +3,9 @@ global:
   env: 
     "ASPNETCORE_ENVIRONMENT": "Staging"
     "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true"
+  # Environment variables shared between all the pods, populated with valueFrom: fieldRef
+  envValuesFrom:
+    Runtime__IpAddress: status.podIP
 
 # config for test-app-api
 test-app-api:

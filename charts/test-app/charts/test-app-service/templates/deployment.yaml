@@ -35,7 +35,14 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           # Environment variable section
           env:
-          {{- $env := merge (.Values.env | default dict) (.Values.global.env | default dict) -}}
+          {{ range $k, $v := .Values.global.envValuesFrom }} # dynamic values
+            - name: {{ $k | quote }}
+              valueFrom:
+                fieldRef:
+                  fieldPath: {{ $v | quote }}
+          {{- end }}
+
+          {{- $env := merge (.Values.env | default dict) (.Values.global.env | default dict) -}} # static values, merged together
           {{ range $k, $v := $env }}
             - name: {{ $k | quote }}
               value: {{ $v | quote }}
