@@ -37,6 +37,13 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          # Environment variable section
+          env:
+          {{- $env := merge (.Values.env | default dict) (.Values.global.env | default dict) -}}
+          {{ range $k, $v := $env }}
+            - name: {{ $k | quote }}
+              value: {{ $v | quote }}
+          {{- end }}
           livenessProbe:
             httpGet:
               path: /

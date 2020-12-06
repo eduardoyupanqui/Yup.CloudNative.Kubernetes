@@ -1,3 +1,10 @@
+# global config
+global:
+  env: 
+    "ASPNETCORE_ENVIRONMENT": "Staging"
+    "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true"
+
+# config for test-app-api
 test-app-api:
   replicaCount: 1
 
@@ -12,9 +19,10 @@ test-app-api:
 
   ingress:
     enabled: true
+    annotations:
       nginx.ingress.kubernetes.io/rewrite-target: "/"
     hosts:
-      - host: chart-example.local
+      - host: minikube.local
         paths: 
         - "/my-test-app"
 
@@ -24,6 +32,7 @@ test-app-api:
   serviceAccount:
     create: false
 
+# config for test-app-service
 test-app-service:
   replicaCount: 1
 
