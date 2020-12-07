@@ -18,6 +18,8 @@ namespace TestApp.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks()
+                .AddCheck<RandomHealthCheck>("Random check");
             services.AddControllers();
         }
 
@@ -37,6 +39,9 @@ namespace TestApp.Api
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health/startup");
+                endpoints.MapHealthChecks("/healthz");
+                endpoints.MapHealthChecks("/ready");
                 endpoints.MapControllers();
             });
         }
