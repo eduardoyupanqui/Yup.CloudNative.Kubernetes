@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,9 +40,9 @@ namespace TestApp.Api
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHealthChecks("/health/startup");
-                endpoints.MapHealthChecks("/healthz");
-                endpoints.MapHealthChecks("/ready");
+                endpoints.MapHealthChecks("/health/startup");//startup-probes
+                endpoints.MapHealthChecks("/healthz", new HealthCheckOptions { Predicate = _ => false });//liveness
+                endpoints.MapHealthChecks("/ready", new HealthCheckOptions { Predicate = _ => false });//readiness
                 endpoints.MapControllers();
             });
         }
