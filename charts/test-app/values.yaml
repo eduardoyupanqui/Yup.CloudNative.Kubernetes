@@ -56,3 +56,15 @@ test-app-service:
 
   serviceAccount:
     create: false
+
+# config for test-app-cli
+test-app-cli:
+
+  image:
+    repository: eduyupanqui/my-test-cli
+    pullPolicy: IfNotPresent
+    tag: ""
+
+  job:
+    ## Should the job be rescheduled on the same node if it fails, or just stopped
+    restartPolicy: Never
