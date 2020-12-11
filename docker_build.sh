@@ -12,3 +12,4 @@ fi
 docker build -f TestApp.Api.Dockerfile . -t eduyupanqui/my-test-api:$1
 docker build -f TestApp.Service.Dockerfile . -t eduyupanqui/my-test-service:$1
 docker build -f TestApp.Cli.Dockerfile . -t eduyupanqui/my-test-cli:$1
+docker build -f TestApp.Cli-Exec-Host.Dockerfile . -t eduyupanqui/my-test-cli-exec-host:$1

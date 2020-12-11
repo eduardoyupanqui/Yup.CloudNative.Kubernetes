@@ -68,3 +68,14 @@ test-app-cli:
   job:
     ## Should the job be rescheduled on the same node if it fails, or just stopped
     restartPolicy: Never
+
+# config for test-app-cli-exec-host
+test-app-cli-exec-host:
+
+  image:
+    repository: eduyupanqui/my-test-cli-exec-host
+    pullPolicy: IfNotPresent
+    tag: ""
+
+  serviceAccount:
+    create: false
