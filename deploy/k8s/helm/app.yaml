@@ -1,0 +1,11 @@
+# This helm values file defines app-based settings
+# Charts use those values, so this file **MUST** be included in all chart releases
+
+app:                                                    # app global settings
+  name: "yup"                                      # Override for custom app name
+  ingress:                                              # ingress related settings
+    entries:
+      webgateway: webgateway-api
+      web: ""                        # ingress entry for institucional api
+  svc:
+      workflow: workflow-api                            # service name for institucional api
