@@ -1,0 +1,72 @@
+replicaCount: 1
+clusterName: yup-aks
+pathBase: /
+
+image:
+  repository: registry.yup.net.pe/yup-dev/web
+  tag: latest
+  pullPolicy: IfNotPresent
+
+serviceAccount:  
+  create: true  
+  annotations: {}  
+  name: ""
+
+service:
+  type: ClusterIP
+  port: 80
+  grpcPort: 81
+
+ingress:
+  enabled: true
+  annotations: {}
+  #hosts:
+  #  - chart-example.local
+  tls: []
+
+resources: {}
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# env defines the environment variables that will be declared in the pod
+env:
+  urls:
+  # configmap declares variables which value is taken from the config map defined in template configmap.yaml (name is name of var and key the key in configmap).
+  configmap:
+  # values define environment variables with a fixed value (no configmap involved) (name is name of var, and value is its value)
+  values:
+    - name: TZ
+      value: America/Lima
+    - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+      value: true
+    - name: ASPNETCORE_ENVIRONMENT
+      value: Production
+    - name: ASPNETCORE_URLS
+      value: http://+:80
+    - name: Serilog__WriteTo__0__Args__serverUrl
+      value: http://172.16.75.70:5342
+    - name: Serilog__WriteTo__0__Name
+      value: Seq
+    - name: USE_CONFIG_SERVER
+      value: true
+    - name: Spring__Cloud__Config__Label
+      value: kube
+    - name: Spring__Cloud__Config__Uri
+      value: http://configserver.yup.net.pe:8888
+probes:
+  liveness:
+    path: /liveness
+    initialDelaySeconds: 10
+    periodSeconds: 15
+    port: 80
+  readiness:
+    path: /hc
+    timeoutSeconds: 5
+    initialDelaySeconds: 30
+    periodSeconds: 60
+    port: 80
