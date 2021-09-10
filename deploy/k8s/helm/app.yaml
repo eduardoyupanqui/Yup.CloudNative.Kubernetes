@@ -5,7 +5,11 @@ app:                                                    # app global settings
   name: "yup"                                      # Override for custom app name
   ingress:                                              # ingress related settings
     entries:
+      procedimiento: procedimiento-api
       webgateway: webgateway-api
       web: ""                        # ingress entry for institucional api
   svc:
-      workflow: workflow-api                            # service name for institucional api
+      procedimiento: procedimiento-api
+      workflow: workflow-api
+      webgateway: webgateway-api
+      web: web                        # service name for institucional api
