@@ -1,5 +1,7 @@
 {{- $name := include "web.fullname" . -}}
-{{- $cfgname := printf "%s-%s" "cfg" $name -}}
+{{- $cfgname := printf "%s-%s" $name "envconfig" -}}
+{{- $appsettingcfgname := printf "%s-%s" $name "config" -}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -31,6 +33,12 @@ spec:
       - name: {{ .Values.inf.registry.secretName }}
       {{- end }}
       serviceAccountName: {{ include "web.serviceAccountName" . }}
+      volumes:
+      {{- if .Values.aspnet.mountSettings }}
+      - name: config
+        configMap:
+          name: {{ $appsettingcfgname }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           {{ if .Values.probes -}}
@@ -82,7 +90,16 @@ spec:
               protocol: TCP
             - name: grpc
               containerPort: 81
-              protocol: TCP              
+              protocol: TCP
+          volumeMounts:
+          {{- if .Values.aspnet.mountSettings }}          
+          - name: config
+            mountPath: /app/appsettings.Production.json
+            subPath: appsettings.Production.json
+          - name: config
+            mountPath: /app/logger.override.json
+            subPath: logger.json
+          {{- end }}                
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}

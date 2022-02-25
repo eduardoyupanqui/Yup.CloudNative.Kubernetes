@@ -1,0 +1,37 @@
+{{- $name := include "institucional-api.fullname" . -}}
+{{- if .Values.env.configmap -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ $name }}-envconfig"
+  labels:
+    app: {{ template "procedimiento-api.name" . }}
+    chart: {{ template "procedimiento-api.chart" .}}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    "helm.sh/resource-policy": keep
+data:
+  ASPNETCORE_ENVIRONMENT: Production
+---
+{{- end }}
+{{- if .Values.aspnet.mountSettings }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ $name }}-config"
+  labels:
+    app: {{ template "procedimiento-api.name" . }}
+    chart: {{ template "procedimiento-api.chart" .}}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    "helm.sh/resource-policy": keep
+data:
+  appsettings.Production.json: |-
+{{ .Files.Get "appsettings.json" | indent 4}}
+  logger.json: |-
+{{ .Files.Get "logger.json" | indent 4}}
+  tracer.json: |-
+{{ .Files.Get "tracer.json" | indent 4}}
+{{- end }}

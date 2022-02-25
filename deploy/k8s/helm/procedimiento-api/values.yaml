@@ -48,25 +48,18 @@ env:
       value: Production
     - name: ASPNETCORE_URLS
       value: http://+:80
-    - name: Serilog__WriteTo__0__Args__serverUrl
-      value: http://172.16.75.70:5342
-    - name: Serilog__WriteTo__0__Name
-      value: Seq
-    - name: USE_CONFIG_SERVER
-      value: true
-    - name: Spring__Cloud__Config__Label
-      value: kube
-    - name: Spring__Cloud__Config__Uri
-      value: http://configserver.yup.net.pe:8888
 probes:
   liveness:
     path: /liveness
     initialDelaySeconds: 10
-    periodSeconds: 15
+    periodSeconds: 5
     port: 80
   readiness:
     path: /hc
     timeoutSeconds: 5
-    initialDelaySeconds: 90
-    periodSeconds: 60
+    initialDelaySeconds: 10
+    periodSeconds: 5
     port: 80
+
+aspnet:
+  mountSettings: true
