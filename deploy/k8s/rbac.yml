@@ -2,13 +2,14 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   creationTimestamp: null
-  name: yupaccount
+  name: yupjenkinsaccount
   namespace: yup
 ---
+apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   creationTimestamp: null
-  name: yuprole
+  name: yupjenkinsrole
   namespace: yup
 rules:
 - apiGroups:
@@ -43,13 +44,14 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   creationTimestamp: null
-  name: yuprolebinding
+  name: yupjenkinsrolebinding
   namespace: yup
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: yuprole
+  name: yupjenkinsrole
 subjects:
 - kind: ServiceAccount
-  name: yupaccount
+  name: yupjenkinsaccount
   namespace: yup
+
