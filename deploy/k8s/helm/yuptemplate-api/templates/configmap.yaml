@@ -1,0 +1,44 @@
+{{- $name := include "yuptemplate-api.fullname" . -}}
+{{- $envcfgname := printf "%s-%s" $name "envconfig" -}}
+{{- $envconfigmap  := lookup "v1" "ConfigMap" .Release.Namespace $envcfgname -}}
+
+{{- if not $envconfigmap }}{{ if .Values.env.configmap -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ $name }}-envconfig"
+  labels:
+    app: {{ template "yuptemplate-api.name" . }}
+    chart: {{ template "yuptemplate-api.chart" .}}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    "helm.sh/resource-policy": keep
+data:
+  ASPNETCORE_ENVIRONMENT: Production
+---
+{{- end }}{{ end }}
+
+{{- $cfgname := printf "%s-%s" $name "config" -}}
+{{- $configmap  := lookup "v1" "ConfigMap" .Release.Namespace $cfgname -}}
+
+{{- if not $configmap }}{{ if .Values.aspnet.mountSettings }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ $name }}-config"
+  labels:
+    app: {{ template "yuptemplate-api.name" . }}
+    chart: {{ template "yuptemplate-api.chart" .}}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    "helm.sh/resource-policy": keep
+data:
+  appsettings.Production.json: |-
+{{ .Files.Get "appsettings.json" | indent 4}}
+  logger.json: |-
+{{ .Files.Get "logger.json" | indent 4}}
+  tracer.json: |-
+{{ .Files.Get "tracer.json" | indent 4}}
+{{- end }}{{ end }}

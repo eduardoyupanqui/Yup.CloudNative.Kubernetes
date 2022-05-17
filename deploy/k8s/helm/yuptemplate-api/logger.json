@@ -1,0 +1,40 @@
+{
+    "Logging": {
+      "LogLevel": {
+        "Default": "Information",
+        "Microsoft": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information"
+      }
+    },
+    "Serilog": {
+      "SeqServerUrl": null,
+      "LogstashgUrl": null,
+      "Using": [
+        "Serilog.Sinks.File"
+      ],
+      "MinimumLevel": {
+        "Default": "Information",
+        "Override": {
+          "Microsoft": "Warning",
+          "Yup": "Information",
+          "System": "Warning"
+        }
+      },
+      "WriteTo": [
+        {
+          "Name": "File",
+          "Args": {
+            "path": "./Logs/log_.txt",
+            "rollingInterval": "Day"
+          }
+        }
+        // {
+        //     "Name": "Seq",
+        //     "Args": {
+        //       "serverUrl": "http://seq:5342",
+        //       "apiKey": ""
+        //     }
+        // }
+      ]
+    }
+  }

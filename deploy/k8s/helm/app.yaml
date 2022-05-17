@@ -9,6 +9,7 @@ app:                                                    # app global settings
       webgateway: webgateway-api
       web: ""                        # ingress entry for institucional api
   svc:
+      yuptemplateapi: yuptemplate-api 
       procedimiento: procedimiento-api
       workflow: workflow-api
       webgateway: webgateway-api
