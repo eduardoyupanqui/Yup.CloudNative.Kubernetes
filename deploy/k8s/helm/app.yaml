@@ -7,10 +7,12 @@ app:                                                    # app global settings
     entries:
       procedimiento: procedimiento-api
       webgateway: webgateway-api
-      web: ""                        # ingress entry for institucional api
+      web: ""                        # ingress entry for web
+      yuptemplatehttpaggregator: yuptemplate-httpaggregator   # ingress entry for yuptemplate httpaggregator
   svc:
       yuptemplateapi: yuptemplate-api 
       procedimiento: procedimiento-api
       workflow: workflow-api
       webgateway: webgateway-api
-      web: web                        # service name for institucional api
+      web: web                        # service name for web
+      yuptemplatehttpaggregator: yuptemplate-httpaggregator # service name for yuptemplate httpaggregator

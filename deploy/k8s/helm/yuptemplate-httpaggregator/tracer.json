@@ -1,0 +1,9 @@
+{
+    "Jaeger": {
+      "Enable": false,
+      "UdpHost": "jaeger.yup.net.pe",
+      "UdpPort": 6831,
+      "MaxPackageSize": 0,
+      "Sampler": "const"
+    }
+}
